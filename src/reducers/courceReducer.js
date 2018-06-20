@@ -2,10 +2,9 @@ import * as types from '../actions/actionTypes'
 
 export default function courceReducer(state = [], action) {
   switch (action.type) {
-    case types.CREATE_COURSE:
+    case types.LOAD_COURSES_SUCCESS:
       //debugger;
-      return [...state,
-        Object.assign({}, action.course)];
+      return action.courses;
 
     default: return state;
   }
