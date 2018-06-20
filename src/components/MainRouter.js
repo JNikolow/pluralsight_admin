@@ -3,6 +3,7 @@ import { Switch, Route } from "react-router-dom";
 import Home from "./home/HomePage";
 import AboutPage from "./about/AboutPage";
 import CoursesPage from "./course/CoursesPage";
+import ManageCoursePage from './course/ManageCoursePage';
 
 // The Main component renders one of the three provided
 // Routes (provided that one matches). Both the /roster
@@ -13,7 +14,9 @@ const MainRouter = () => (
   <main>
     <Switch>
       <Route exact path="/" component={Home} />
-      <Route path="/courses" component={CoursesPage}/>      
+      <Route path="/courses" component={CoursesPage} />      
+      <Route path="/course" component={ManageCoursePage} />      
+      <Route path="/course/:id" component={ManageCoursePage} />      
       <Route path="/about" component={AboutPage}/>
     </Switch>
   </main>
