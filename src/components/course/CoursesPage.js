@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as courseActions from '../../actions/courseActions';
 import CourseList from './CoursesList';
+import { browserHistory } from 'react-router-dom'
 
 class CoursesPage extends React.Component {
   //constructor(props, context) {
@@ -14,6 +15,10 @@ class CoursesPage extends React.Component {
     return <div key={index}>{course.title}</div>;
   }
 
+  redirectToAddCoursePage(course, index) {
+    browserHistory.push('/course');
+  }
+
   render() {
     //debugger;
     const { courses } = this.props;
@@ -21,6 +26,10 @@ class CoursesPage extends React.Component {
     return (
       <div>
         <h1>Courses</h1>
+        <input type="submit"
+               value="Add Course"
+               className="btn btn-primary"
+               onClick={this.redirectToAddCoursePage} />
         <CourseList courses={courses} />
       </div>
     );
