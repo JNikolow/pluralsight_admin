@@ -21,12 +21,12 @@ export class ManageCoursePage extends React.Component {
     this.updateCourseState = this.updateCourseState.bind(this);
   }
 
-  //componentWillReceiveProps(nextProps) {
-  //  if (this.props.course.id != nextProps.course.id) {
-  //    // Necessary to populate form when existing course is loaded directly.
-  //    this.setState({ course: Object.assign({}, nextProps.course) });
-  //  }
-  //}
+  componentWillReceiveProps(nextProps) {
+    if (this.props.course.id != nextProps.course.id) {
+      // Necessary to populate form when existing course is loaded directly.
+      this.setState({ course: Object.assign({}, nextProps.course) });
+    }
+  }
 
   updateCourseState(event) {
     const field = event.target.name;
@@ -98,16 +98,21 @@ ManageCoursePage.contextTypes = {
   router: PropTypes.object
 }
 
-//function getCourseById(courses, id) {
-//  const course = courses.filter(course => course.id == id);
-//  if (course) return course[0]; //since filter returns an array, have to grab the first.
-//  return null;
-//}
+function getCourseById(courses, id) {
+  const course = courses.filter(course => course.id == id);
+  if (course.length) return course[0]; //since filter returns an array, have to grab the first.
+  return null;
+}
 
 function mapStateToProps(state, ownProps) {
-  //const courseId = ownProps.params.id; // from the path `/course/:id`
+  debugger;
+  const courseId = ownProps.match.params.id; // from the path `/course/:id`
 
   let course = { id: '', watchHref: '', title: '', authorId: '', length: '', category: '' };
+
+  if (courseId && state.coursesReducer.length > 0) {
+    course = getCourseById(state.coursesReducer, courseId);
+  }
 
   //debugger;
   const authorsFormattedForDropdown = state.authorsReducer.map(author => {
@@ -116,10 +121,6 @@ function mapStateToProps(state, ownProps) {
       text: author.firstName + ' ' + author.lastName
     };
   });
-
-  //if (courseId && state.courses.length > 0) {
-  //  course = getCourseById(state.courses, courseId);
-  //}
 
   //debugger;
   return {
