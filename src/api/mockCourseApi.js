@@ -93,7 +93,9 @@ class CourseApi {
   static deleteCourse(courseId) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
+        // eslint-disable-next-line
         const indexOfCourseToDelete = courses.findIndex(course => {
+          // eslint-disable-next-line
           course.courseId === courseId;
         });
         courses.splice(indexOfCourseToDelete, 1);

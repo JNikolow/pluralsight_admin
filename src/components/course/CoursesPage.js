@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as courseActions from '../../actions/courseActions';
 import CourseList from './CoursesList';
-import { withRouter } from 'react-router-dom'
 
 class CoursesPage extends React.Component {
   constructor(props, context) {
