@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import * as courseActions from '../../actions/courseActions';
 import CourseForm from './CourseForm';
 //import { authorsFormattedForDropdown } from '../../selectors/selectors';
-//import toastr from 'toastr';
+import toastr from 'toastr';
 
 export class ManageCoursePage extends React.Component {
   constructor(props, context) {
@@ -13,8 +13,8 @@ export class ManageCoursePage extends React.Component {
 
     this.state = {
       course: Object.assign({}, this.props.course),
-      errors: {}
-      //saving: false
+      errors: {},
+      saving: false
     };
 
     this.saveCourse = this.saveCourse.bind(this);
@@ -50,9 +50,15 @@ export class ManageCoursePage extends React.Component {
 
   saveCourse(event) {
     event.preventDefault();
-    this.props.actions.saveCourse(this.state.course);
+    this.setState({ saving: true });
+    this.props.actions.saveCourse(this.state.course)
+      .then(() => this.redirect())
+      .catch(error => {
+        toastr.error(error);
+        this.setState({ saving: false });
+      });
 
-    this.context.router.history.push('/courses');
+    //this.context.router.history.push('/courses');
 
     //if (!this.courseFormIsValid()) {
     //  return;
@@ -67,11 +73,11 @@ export class ManageCoursePage extends React.Component {
     //  });
   }
 
-  //redirect() {
-  //  this.setState({ saving: false });
-  //  toastr.success('Course saved.');
-  //  this.context.router.push('/courses');
-  //}
+  redirect() {
+    this.setState({ saving: false });
+    toastr.success('Course saved.');
+    this.context.router.history.push('/courses');
+  }
 
   render() {
     return (

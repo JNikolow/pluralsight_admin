@@ -2,21 +2,29 @@
 import React from 'react';
 import MainRouter from './MainRouter'
 import Header from './common/Header'
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom'
 
 class App extends React.Component {
   render() {
     return (
       <div id="app" className="container-fluid">
-        <Header/>
+        <Header loading={ this.props.loading }/>
         <MainRouter/>
       </div>
     );
   }
 }
 
-// App.propTypes = {
-//   children: PropTypes.object.isRequired
-// };
+ App.propTypes = {
+   loading: PropTypes.bool.isRequired
+ };
 
-export default App;
+function mapStateToProps(state, ownProps) {
+  return {
+    loading: state.ajaxCallsInProgress > 0
+  };
+}
+
+export default withRouter(connect(mapStateToProps)(App));
